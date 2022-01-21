@@ -1,0 +1,76 @@
+type InterestToken @entity{
+  id: ID!
+  createdAt: BigInt!
+  block: BigInt!
+  transaction: Bytes!
+  name: String!
+  symbol: String!
+  address: Bytes!
+  tranche: Bytes!
+}
+
+type Tranche @entity{
+  id: ID!
+  createdAt: BigInt!
+  block: BigInt!
+  transaction: Bytes!
+  name: String!
+  symbol: String!
+  address: Bytes!
+  wrappedPosition: Bytes!
+  underlying: Bytes!
+  interestToken: Bytes!
+  expiration: BigInt!
+}
+
+type ConvergentPool @entity{
+  id: ID!
+  createdAt: BigInt!
+  block: BigInt!
+  transaction: Bytes!
+  address: Bytes!
+  poolID: Bytes!
+  bptName: String!
+  bptSymbol: String!
+  underlying: Bytes!
+  bond: Bytes!
+  expiration: BigInt!
+}
+
+type WeightedPool @entity{
+  id: ID!
+  createdAt: BigInt!
+  block: BigInt!
+  transaction: Bytes!
+  address: Bytes!
+  poolID: Bytes!
+  bptName: String!
+  bptSymbol: String!
+}
+
+type Account @entity{
+  #Address of user
+  id: ID!
+  address: Bytes!
+  deposits: [Deposit!]!
+}
+
+enum DepositType{
+  MINT
+  #cannot distinguish between if a user obtains Y/P token by swapping or withdrawing LP token from a convergent or weighted pool
+  SWAP_OR_WITHDRAWAL
+}
+
+#Deposit represents both mints and swaps of Interest and Principal Tokens
+type Deposit @entity{
+  id: ID!
+  depositor: Bytes!
+  depositType: DepositType!
+  timestamp: BigInt!
+  block: BigInt!
+  transaction: Bytes!
+  tokenAddress: Bytes!
+  tokenName: String!
+  tokenSymbol: String!
+  amount: BigInt!
+}
